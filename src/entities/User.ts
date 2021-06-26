@@ -1,9 +1,10 @@
-import {Entity, PrimaryColumn, Column, CreateDateColumn, UpdateDateColumn} from "typeorm";
+import { Entity, PrimaryColumn, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
 import { v4 as uuid } from "uuid";
+import { Exclude } from "class-transformer";
 
-
-@Entity("users")
+@Entity("users") //referencia a tabela users do BD
 class User {
+
     @PrimaryColumn()
     readonly id: string;
 
@@ -16,17 +17,22 @@ class User {
     @Column()
     admin: boolean;
 
+    @Exclude()
+    @Column()
+    password: string;
+
     @CreateDateColumn()
     created_at: Date;
 
-    @CreateDateColumn()
+    @UpdateDateColumn()
     updated_at: Date;
 
     constructor() {
-      if (!this.id) {
-        this.id = uuid();
-      }
+        if(!this.id){
+            this.id = uuid();
+        }
     }
+
 }
 
 export { User };
